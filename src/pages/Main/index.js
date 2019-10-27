@@ -67,11 +67,15 @@ export default class Main extends Component {
         loading: false,
       });
     } catch (err) {
-      this.setState({
-        error: err.response.status
-          ? 'Repositório não encontrado.'
-          : err.message,
-      });
+      if (err.response) {
+        this.setState({
+          error: err.response.status
+            ? 'Repositório não encontrado.'
+            : err.message,
+        });
+      }
+
+      this.setState({ error: err.message });
     } finally {
       this.setState({ loading: false });
     }
