@@ -1,13 +1,37 @@
 import styled from 'styled-components';
 
-export const Loading = styled.div`
-  color: #fff;
-  font-size: 30px;
-  font-weight: bold;
+export const Tabs = styled.div`
+  margin-top: 30px;
+  padding-top: 30px;
   display: flex;
   justify-content: center;
+`;
+
+export const Button = styled.button.attrs(props => ({
+  disabled: props.disabled,
+}))`
+  border: 1px solid #7159c1;
+  border-radius: 4px;
+  margin: 0 5px;
+  background: ${props => (props.active ? '#7159c1' : 'transparent')};
+  padding: 5px 10px;
+  color: ${props => (props.active ? '#fff' : '#7159c1')};
+  font-size: 14px;
+  opacity: 1;
+  display: inline-flex;
+  justify-content: center;
   align-items: center;
-  height: 100vh;
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+    color: #ddd;
+    border-color: #ddd;
+  }
+
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 export const Owner = styled.header`
@@ -89,6 +113,7 @@ export const IssueList = styled.div`
           height: 20px;
           padding: 3px 4px;
           margin-left: 10px;
+          display: inline-block;
         }
       }
 
@@ -98,5 +123,21 @@ export const IssueList = styled.div`
         color: #999;
       }
     }
+  }
+`;
+
+export const Actions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+
+  .current {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #666;
   }
 `;

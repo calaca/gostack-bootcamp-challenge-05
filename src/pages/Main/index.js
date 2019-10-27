@@ -10,8 +10,10 @@ export default class Main extends Component {
     newRepo: '',
     repositories: [],
     loading: false,
+    error: false,
   };
 
+  // get repos saved in localStorage
   componentDidMount() {
     const repositories = localStorage.getItem('repositories');
 
@@ -20,6 +22,7 @@ export default class Main extends Component {
     }
   }
 
+  // save repos in localStorage
   componentDidUpdate(_, prevState) {
     const { repositories } = this.state;
 
@@ -28,45 +31,71 @@ export default class Main extends Component {
     }
   }
 
+  // update new repository full name
   handleInputChange = e => {
     this.setState({ newRepo: e.target.value });
   };
 
+  // validate input, get new repository info and save new repository to repositories state
   handleSubmit = async e => {
     e.preventDefault();
 
-    this.setState({ loading: true });
+    this.setState({ loading: true, error: false });
 
     const { newRepo, repositories } = this.state;
 
-    const response = await api.get(`/repos/${newRepo}`);
+    try {
+      if (newRepo === '') {
+        throw new Error('Repositório inválido.');
+      }
 
-    const data = {
-      name: response.data.full_name,
-    };
+      const repoExists = repositories.find(repo => repo.name === newRepo);
 
-    this.setState({
-      repositories: [...repositories, data],
-      newRepo: '',
-      loading: false,
-    });
+      if (repoExists) {
+        throw new Error('Repositório duplicado.');
+      }
+
+      const response = await api.get(`/repos/${newRepo}`);
+
+      const data = {
+        name: response.data.full_name,
+      };
+
+      this.setState({
+        repositories: [...repositories, data],
+        newRepo: '',
+        loading: false,
+      });
+    } catch (err) {
+      this.setState({
+        error: err.response.status
+          ? 'Repositório não encontrado.'
+          : err.message,
+      });
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   render() {
-    const { newRepo, repositories, loading } = this.state;
+    const { newRepo, repositories, loading, error } = this.state;
 
     return (
       <Container>
         <h1>
           <FaGithubAlt /> Repositórios
         </h1>
-        <Form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="Adicionar repositório"
-            value={newRepo}
-            onChange={this.handleInputChange}
-          />
+        <Form onSubmit={this.handleSubmit} error={error ? 1 : 0}>
+          <div className="content">
+            <input
+              type="text"
+              placeholder="Adicionar repositório"
+              value={newRepo}
+              onChange={this.handleInputChange}
+            />
+            {error && <small className="error">{error}</small>}
+          </div>
+
           <SubmitButton loading={loading ? 1 : 0}>
             {loading ? (
               <FaSpinner color="#fff" size={14} />

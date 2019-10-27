@@ -5,12 +5,29 @@ export const Form = styled.form`
   display: flex;
   flex-direction: row;
 
-  input {
+  .content {
     flex: 1;
+  }
+
+  input {
+    width: 100%;
     border: 1px solid #eee;
     border-radius: 4px;
     padding: 10px 15px;
     font-size: 16px;
+    border-color: ${props => (props.error ? '#e74c3c' : '#eee')};
+  }
+
+  .error {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 12px;
+    padding: 10px;
+    color: #c0392b;
+    background: #e74c3c47;
+    border-radius: 4px;
+    display: inline-block;
+    text-align: center;
   }
 `;
 
@@ -33,6 +50,7 @@ export const SubmitButton = styled.button.attrs(props => ({
   padding: 0 15px;
   margin-left: 10px;
   border-radius: 4px;
+  height: 40px;
 
   display: flex;
   justify-content: center;
