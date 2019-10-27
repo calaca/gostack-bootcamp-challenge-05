@@ -73,6 +73,8 @@ export default class Main extends Component {
             ? 'Repositório não encontrado.'
             : err.message,
         });
+
+        return;
       }
 
       this.setState({ error: err.message });
