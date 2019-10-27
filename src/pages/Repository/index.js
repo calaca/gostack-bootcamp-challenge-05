@@ -107,7 +107,10 @@ export default class Repository extends Component {
         ) : (
           <>
             <Owner>
-              <Link to="/">Voltar aos repositórios</Link>
+              <Link to="/">
+                <FaChevronLeft />
+                <span>Voltar</span>
+              </Link>
               <img
                 src={repository.owner.avatar_url}
                 alt={repository.owner.login}

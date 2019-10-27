@@ -21,6 +21,7 @@ export const Button = styled.button.attrs(props => ({
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.4s ease-in-out;
 
   &[disabled] {
     cursor: not-allowed;
@@ -43,6 +44,20 @@ export const Owner = styled.header`
     color: #7159c1;
     text-decoration: none;
     font-size: 16px;
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+
+    svg {
+      margin-right: 4px;
+      transition: all 0.4s ease-in-out;
+    }
+
+    &:hover {
+      svg {
+        margin-left: -5px;
+      }
+    }
   }
 
   img {
@@ -98,6 +113,7 @@ export const IssueList = styled.div`
         a {
           text-decoration: none;
           color: #333;
+          transition: all 0.4s ease-in-out;
 
           &:hover {
             color: #7159c1;
